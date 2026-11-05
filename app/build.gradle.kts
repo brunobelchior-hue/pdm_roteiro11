@@ -25,6 +25,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata:2.9.2")
     implementation("androidx.room:room-runtime:2.7.2")
     annotationProcessor("androidx.room:room-compiler:2.7.2")
-    implementation("com.google.dagger:hilt-android:2.60.1")
-    annotationProcessor("com.google.dagger:hilt-compiler:2.60.1")
+    implementation("com.google.dagger:hilt-android:2.58")
+    annotationProcessor("com.google.dagger:hilt-compiler:2.58")
 }
