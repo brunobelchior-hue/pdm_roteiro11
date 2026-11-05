@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp">
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Cadastro de Cliente" android:textSize="25sp" android:textStyle="bold" />
+    <EditText android:id="@+id/edtNome" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:hint="Nome" android:inputType="textPersonName" />
+    <EditText android:id="@+id/edtTelefone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="Telefone" android:inputType="phone" />
+    <Button android:id="@+id/btnSalvarCliente" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:text="Salvar cliente" />
+    <ProgressBar android:id="@+id/progressLoading" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:visibility="gone" android:indeterminate="true" />
+    <LinearLayout android:id="@+id/txtClientes" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:orientation="vertical" />
+</LinearLayout>
+</ScrollView>
