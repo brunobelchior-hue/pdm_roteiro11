@@ -30,9 +30,26 @@ if ($env:LOCALAPPDATA) {
     Get-ChildItem -Path (Join-Path $env:LOCALAPPDATA 'Programs\Eclipse Adoptium\jdk-*') -Directory -ErrorAction SilentlyContinue |
         ForEach-Object { Add-Jdk $_.FullName }
 }
+function Get-JavaVersionText([string]$javaExecutable) {
+    $info = New-Object System.Diagnostics.ProcessStartInfo
+    $info.FileName = $javaExecutable
+    $info.Arguments = '-version'
+    $info.UseShellExecute = $false
+    $info.RedirectStandardError = $true
+    $info.RedirectStandardOutput = $true
+    $info.CreateNoWindow = $true
+    $process = [System.Diagnostics.Process]::Start($info)
+    $message = $process.StandardError.ReadToEnd() + $process.StandardOutput.ReadToEnd()
+    $process.WaitForExit()
+    return $message
+}
 $selected = $null
 foreach ($candidate in ($candidates | Select-Object -Unique)) {
-    $result = & (Join-Path $candidate 'bin\java.exe') -version 2>&1 | Out-String
+    try {
+        $result = Get-JavaVersionText (Join-Path $candidate 'bin\java.exe')
+    } catch {
+        continue
+    }
     $m = [regex]::Match($result, '"(\d+)(?:\.|")')
     if ($m.Success -and @('17','21') -contains $m.Groups[1].Value) {
         $selected = $candidate
@@ -48,7 +65,7 @@ if (-not $selected) {
 $env:JAVA_HOME = $selected
 $env:Path = (Join-Path $selected 'bin') + ';' + $env:Path
 Write-Host "Usando JAVA_HOME: $selected" -ForegroundColor Green
-& (Join-Path $selected 'bin\java.exe') -version
+Write-Host (Get-JavaVersionText (Join-Path $selected 'bin\java.exe'))
 & .\gradlew.bat --stop
 & .\gradlew.bat clean :app:assembleDebug --no-daemon
 $buildExit = $LASTEXITCODE
